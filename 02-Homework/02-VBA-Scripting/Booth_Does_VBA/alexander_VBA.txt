@@ -1,0 +1,141 @@
+Option Explicit
+    
+Sub stockTicker()
+    'declare worksheet
+    Dim ws As Worksheet
+    ' Set an initial variable for holding the stock name
+    Dim Stock_Name As String
+    ' Set an initial variable for holding the total per stock brand
+    Dim Stock_Total As Double
+    ' Declare i
+    Dim i As Double
+    ' Last Row
+    Dim LastRow As Double
+    ' Keep track of the location for each stock brand in the summary table
+    Dim Summary_Table_Row As Integer
+    'open and close
+    Dim openPrice As Double
+    Dim closePrice As Double
+    Dim yearlyChange As Double
+    Dim percentChange As Double
+    
+    'Second Summary Table vars
+    Dim greatInc_Stock As String
+    Dim greatDec_Stock As String
+    Dim mostVol_Stock As String
+    
+    Dim greatInc As Double
+    Dim greatDec As Double
+    Dim mostVol As Double
+    
+    ' --------------------------------------------
+    ' LOOP THROUGH ALL SHEETS
+    ' --------------------------------------------
+    For Each ws In Worksheets
+    
+        ' init variables
+        Stock_Total = 0
+        LastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+        Summary_Table_Row = 2
+        greatInc = 0
+        greatDec = 0
+        mostVol = 0
+        
+        ' Open/Close Prices
+        openPrice = ws.Cells(2, 3).Value
+        
+        ' Loop through all stock purchases
+        For i = 2 To LastRow
+        
+            ' Add to the Stock Total
+            Stock_Total = Stock_Total + ws.Cells(i, 7).Value
+        
+            ' Check if we are still within the same stock ticker, if it is not...
+            If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+                'Grab the closing price
+                closePrice = ws.Cells(i, 6).Value
+                
+                'Yearly Change
+                yearlyChange = closePrice - openPrice
+                
+                'Percent Change
+                ' deal with divide by 0
+                If openPrice = 0 Then
+                    percentChange = 100 * (yearlyChange / 0.0000001)
+                Else:
+                    percentChange = 100 * (yearlyChange / openPrice)
+                End If
+                
+                ' Set the stock name
+                Stock_Name = ws.Cells(i, 1).Value
+                
+                ' Print the Stock Ticker in the Summary Table
+                ws.Range("I" & Summary_Table_Row).Value = Stock_Name
+                
+                ' Print the Yearly Change to the Summary Table
+                ws.Range("J" & Summary_Table_Row).Value = yearlyChange
+                
+                ' Conditional Color
+                If yearlyChange > 0 Then
+                    ws.Range("J" & Summary_Table_Row).Interior.ColorIndex = 4
+                ElseIf yearlyChange < 0 Then
+                    ws.Range("J" & Summary_Table_Row).Interior.ColorIndex = 3
+                Else
+                    ws.Range("J" & Summary_Table_Row).Interior.ColorIndex = 2
+                End If
+                
+                ' Print the Yearly Change to the Summary Table
+                ws.Range("K" & Summary_Table_Row).Value = percentChange
+                
+                ' Print the Stock Amount to the Summary Table
+                ws.Range("L" & Summary_Table_Row).Value = Stock_Total
+                
+                ' Add one to the summary table row
+                Summary_Table_Row = Summary_Table_Row + 1
+                
+                ' Reset the Brand Total
+                Stock_Total = 0
+                openPrice = ws.Cells(i + 1, 3)
+
+            End If
+        
+        Next i
+        
+        'Loop through summary table to make summary table 2.0
+        For i = 2 To Summary_Table_Row
+            ' three conditionals
+            If ws.Cells(i, 11).Value > greatInc Then
+                greatInc = ws.Cells(i, 11).Value
+                greatInc_Stock = ws.Cells(i, 9).Value
+            End If
+            If ws.Cells(i, 11).Value < greatDec Then
+                greatDec = ws.Cells(i, 11).Value
+                greatDec_Stock = ws.Cells(i, 9).Value
+            End If
+            If ws.Cells(i, 12).Value > mostVol Then
+                mostVol = ws.Cells(i, 12).Value
+                mostVol_Stock = ws.Cells(i, 9).Value
+            End If
+        Next i
+        
+        ' Use functions instead
+        'greatInc = WorksheetFunction.Max(ws.Range("K2:K" & Summary_Table_Row))
+        'greatInc_Stock = ws.Cells(WorksheetFunction.Match(greatInc, ws.Range("K2:K" & Summary_Table_Row), 0), 9).Value
+        'greatDec = WorksheetFunction.Min(ws.Range("K2:K" & Summary_Table_Row))
+        'greatDec_Stock = ws.Cells(WorksheetFunction.Match(greatDec, ws.Range("K2:K" & Summary_Table_Row), 0), 9).Value
+        'mostVol = WorksheetFunction.Max(ws.Range("L2:L" & Summary_Table_Row))
+        'mostVol_Stock = ws.Cells(WorksheetFunction.Match(mostVol, ws.Range("L2:L" & Summary_Table_Row), 0), 9).Value
+        
+        ' write to second summary table
+        ws.Range("O2").Value = greatInc_Stock
+        ws.Range("P2").Value = greatInc
+        ws.Range("O3").Value = greatDec_Stock
+        ws.Range("P3").Value = greatDec
+        ws.Range("O4").Value = mostVol_Stock
+        ws.Range("P4").Value = mostVol
+        
+    Next ws
+    
+End Sub
+    
+
