@@ -1,0 +1,35 @@
+-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
+-- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
+
+
+CREATE TABLE "category" (
+    "category_id" serial   NOT NULL,
+    "category_name" VARCHAR(100)   NOT NULL,
+    "last_updated" timestamp  DEFAULT localtimestamp NOT NULL,
+    CONSTRAINT "pk_category" PRIMARY KEY (
+        "category_id"
+     )
+);
+
+CREATE TABLE "sources" (
+    "source_id" serial   NOT NULL,
+    "source_name" VARCHAR(100)   NOT NULL,
+    "last_updated" timestamp  DEFAULT localtimestamp NOT NULL,
+    CONSTRAINT "pk_sources" PRIMARY KEY (
+        "source_id"
+     )
+);
+
+CREATE TABLE "headlines" (
+    "article_id" serial   NOT NULL,
+    "article_name" VARCHAR(500)   NOT NULL,
+    "article_sub_header" VARCHAR(500)   NOT NULL,
+    "source_id" int   NOT NULL,
+    "category_id" int   NOT NULL,
+    "url" VARCHAR(300)   NOT NULL,
+    "last_updated" timestamp  DEFAULT localtimestamp NOT NULL,
+    CONSTRAINT "pk_headlines" PRIMARY KEY (
+        "article_id"
+     )
+);
+

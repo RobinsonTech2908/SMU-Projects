@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>WHO Life Expectancy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/superhero/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.bootstrap4.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <!-- Buttons -->
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+    <!-- My Scripts -->
+    <script src="static/js/data.js"></script>
+    <script src="static/js/app.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html">Data Table
+          </a>
+                </div>
+            </div>
+        </nav>
+        <div class="hero text-center">
+            <h1>WHO Life Expectancy</h1>
+        </div>
+        <div class="container-fluid">
+            <div class="row margin-top-50">
+                <div class="col-md-2">
+                    <aside class="filters">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Filter Search</div>
+                            <div class="panel-body">
+                                <form id="form">
+                                    <div class="form-group">
+                                        <ul class="list-group" id="filters">
+                                            <li class="filter list-group-item">
+                                                <label for="year">Enter a Year</label>
+                                                <input class="form-control" id="year" type="text" placeholder="2014">
+                                            </li>
+                                            <li class="filter list-group-item">
+                                                <label for="country">Choose a Country</label>
+                                                <select class="form-control" id="country">
+                                                    <option value="">All</option>
+                                                </select>
+                                            </li>
+                                            <li class="filter list-group-item">
+                                                <label for="region">Choose a Region</label>
+                                                <select class="form-control" id="region">
+                                                    <option value="">All</option>
+                                                </select>
+                                            </li>
+                                            <li class="filter list-group-item">
+                                                <label for="income">Choose an Income Group</label>
+                                                <select class="form-control" id="income">
+                                                    <option value="">All</option>
+                                                </select>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <button id="filter-btn" type="button" class="btn btn-primary">Filter Table</button>
+                                    <button id="filter-clear" type="button" class="btn btn-secondary">Clear Filters</button>
+                                </form>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+                <div class="col-md-10">
+                    <div id="table-area" class="">
+                        <table id="who-table" class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="table-head">Year</th>
+                                    <th class="table-head">Country</th>
+                                    <th class="table-head">Life Expectancy</th>
+                                    <th class="table-head">Region</th>
+                                    <th class="table-head">Income Group</th>
+                                    <th class="table-head">Alcohol</th>
+                                    <th class="table-head">BMI</th>
+                                    <th class="table-head">HIV/AIDS</th>
+                                    <th class="table-head">Measles</th>
+                                    <th class="table-head">Schooling</th>
+                                    <th class="table-head">Healthcare Expenditure</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
